@@ -1,38 +1,25 @@
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
-const resetBtn = document.getElementById('reset-btn');
 
-const DURATION_24H = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-let endTime;
+// Target Time: Feb 2, 2026, 12:30 PM IST
+// IST is UTC+5:30. So 12:30 IST is 07:00 UTC.
+const TARGET_DATE = new Date('2026-02-02T07:00:00Z').getTime();
 
 function initTimer() {
-    const savedEndTime = localStorage.getItem('countdownEndTime');
-    
-    if (savedEndTime) {
-        endTime = parseInt(savedEndTime, 10);
-    } else {
-        startNewTimer();
-    }
-    
     updateTimer();
     setInterval(updateTimer, 1000);
 }
 
-function startNewTimer() {
-    endTime = Date.now() + DURATION_24H;
-    localStorage.setItem('countdownEndTime', endTime);
-}
-
 function updateTimer() {
     const now = Date.now();
-    const timeLeft = endTime - now;
+    const timeLeft = TARGET_DATE - now;
 
     if (timeLeft <= 0) {
         hoursEl.innerText = '00';
         minutesEl.innerText = '00';
         secondsEl.innerText = '00';
+        document.title = "Countdown Finished";
         return;
     }
 
@@ -47,17 +34,5 @@ function updateTimer() {
     // Update tab title for dynamic effect
     document.title = `${hoursEl.innerText}:${minutesEl.innerText}:${secondsEl.innerText} - Countdown`;
 }
-
-resetBtn.addEventListener('click', () => {
-    localStorage.removeItem('countdownEndTime');
-    startNewTimer();
-    updateTimer();
-    
-    // Simple visual feedback for reset
-    resetBtn.innerText = 'Resetted!';
-    setTimeout(() => {
-        resetBtn.innerText = 'Reset Timer';
-    }, 1000);
-});
 
 initTimer();
