@@ -1,0 +1,12 @@
+{
+  "name": "24h-countdown-timer",
+  "version": "1.0.0",
+  "description": "A premium 24-hour countdown timer for LinkedIn.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
